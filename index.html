@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NOIR &amp; CREMA — Artisanal Roastery &amp; Kitchen</title>
+  <meta name="description" content="Small-batch specialty coffee, wood-fired kitchen, and an intimate listening lounge." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="loader" class="loader">
+    <div class="loader-inner">
+      <span class="loader-brand" id="loaderBrand">NOIR &amp; CREMA</span>
+      <div class="loader-bar"><div id="loaderFill" class="loader-fill"></div></div>
+      <span id="loaderPct" class="loader-pct">0%</span>
+    </div>
+  </div>
 
+  <!-- Fixed 3D WebGL Canvas -->
+  <canvas id="bg-canvas"></canvas>
+  <div id="webgl-fallback" class="fallback hidden">3D view unavailable on this browser.</div>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <a href="#hero" class="brand" id="navBrand">NOIR &amp; CREMA</a>
+    <nav class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#craft">Craft</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <a href="#visit" class="btn btn-primary btn-sm">Reserve Table</a>
+  </header>
+
+  <!-- Main Scrollable Overlay -->
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero-content glass-panel">
+        <span class="eyebrow" id="heroEyebrow">SMALL-BATCH ROASTERY &amp; KITCHEN</span>
+        <h1 id="heroTitle">Crafted in Fire,<br />Poured in Silence.</h1>
+        <p id="heroSub">Single-origin pour-overs, wood-fired sourdough plates, and an intimate vinyl lounge.</p>
+        <div class="hero-actions">
+          <a href="#visit" class="btn btn-primary">Reserve a Table</a>
+          <a href="#menu" class="btn btn-ghost">Explore Menu</a>
+        </div>
+      </div>
+
+      <!-- 3D Hotspot Info Drawer -->
+      <div id="hotspotCard" class="hotspot-card glass-panel hidden">
+        <button id="closeHotspot" class="close-btn" aria-label="Close">&times;</button>
+        <span id="hotspotTag" class="eyebrow">01 / ROASTERY</span>
+        <h3 id="hotspotTitle">Precision Pour-Over Bar</h3>
+        <p id="hotspotDesc">93°C temperature-locked extraction using washed Ethiopian &amp; Chikmagalur micro-lots.</p>
+        <a href="#menu" class="link-arrow">View Signature Drinks &rarr;</a>
+      </div>
+
+      <!-- Camera View Switcher -->
+      <div class="camera-dock glass-panel">
+        <button class="cam-pill active" data-view="counter">Espresso Bar</button>
+        <button class="cam-pill" data-view="roastery">Roastery</button>
+        <button class="cam-pill" data-view="lounge">Overview</button>
+        <span class="drag-hint">Drag 360° &bull; Click glowing nodes</span>
+      </div>
+    </section>
+
+    <!-- Curated Menu Section -->
+    <section id="menu" class="section">
+      <div class="section-head glass-panel">
+        <div>
+          <span class="eyebrow">CURATED SELECTION</span>
+          <h2>Seasonal Menu</h2>
+        </div>
+        <div class="tabs" id="menuTabs">
+          <button class="tab active" data-cat="coffee">Specialty Coffee</button>
+          <button class="tab" data-cat="plates">Artisanal Plates</button>
+          <button class="tab" data-cat="desserts">Desserts</button>
+        </div>
+      </div>
+      <div id="menuGrid" class="menu-grid"></div>
+    </section>
+
+    <!-- Sensory Craft Strip -->
+    <section id="craft" class="section">
+      <div class="craft-grid" id="craftGrid"></div>
+    </section>
+
+    <!-- Reservation & Location -->
+    <section id="visit" class="section">
+      <div class="visit-grid">
+        <div class="glass-panel visit-card">
+          <span class="eyebrow">INSTANT WHATSAPP BOOKING</span>
+          <h2>Reserve Your Table</h2>
+          <form id="bookingForm" class="booking-form">
+            <div class="form-row">
+              <label>
+                <span>Guests</span>
+                <select id="guestCount">
+                  <option value="2 Guests">2 Guests</option>
+                  <option value="4 Guests">4 Guests</option>
+                  <option value="6 Guests">6 Guests</option>
+                  <option value="Private Table (8+)">Private Table (8+)</option>
+                </select>
+              </label>
+              <label>
+                <span>Date</span>
+                <input type="date" id="bookingDate" required />
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                <span>Time Slot</span>
+                <select id="timeSlot">
+                  <option value="10:30 AM (Morning Pour)">10:30 AM (Morning Pour)</option>
+                  <option value="01:30 PM (Lunch)">01:30 PM (Lunch)</option>
+                  <option value="05:30 PM (Golden Hour)">05:30 PM (Golden Hour)</option>
+                  <option value="08:30 PM (Dinner &amp; Vinyl)">08:30 PM (Dinner &amp; Vinyl)</option>
+                </select>
+              </label>
+              <label>
+                <span>Your Name</span>
+                <input type="text" id="guestName" placeholder="e.g. Aarav" required />
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Confirm via WhatsApp &rarr;</button>
+          </form>
+        </div>
+
+        <div class="glass-panel visit-card info-card">
+          <span class="eyebrow">LOCATION &amp; HOURS</span>
+          <h2 id="visitHeading">Visit the Roastery</h2>
+          <p id="visitAddress" class="address-text">14 Rajpur Road, Dehradun, Uttarakhand</p>
+          <div class="hours-box">
+            <div><span>Daily Hours</span><strong id="visitHours">08:30 AM – 11:00 PM</strong></div>
+            <div><span>Direct Desk</span><strong id="visitPhone">+91 98765 43210</strong></div>
+          </div>
+          <a id="mapsBtn" href="#" target="_blank" rel="noopener" class="btn btn-ghost btn-full">Open in Google Maps &nearr;</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="footerCopy">&copy; 2026 NOIR &amp; CREMA. All rights reserved.</span>
+    <span class="studio-credit">Digital Architecture by <strong>BNAVAT</strong></span>
+  </footer>
+
+  <script type="module" src="./main.js"></script>
+</body>
+            </html>
